@@ -1,0 +1,84 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Register
+{% endblock %}
+
+{% block main %}
+    <form action="/register" method="post" Id="myForm" onSubmit = "return checkPassword(this)">
+        <div class="form-group">
+            <input autocomplete="off" autofocus class="form-control" name="username" placeholder="Username" type="text">
+        </div>
+        <div class="form-group">
+            <!--<input class="form-control" name="password" placeholder="Password" type="password" onkeyup="checkPassword()">-->
+            <input class="form-control" id="password" name="password" placeholder="Password" type="password">
+        </div>
+        <div class="form-group">
+            <input class="form-control" id="password2" name="password2" placeholder="Confirm Password" type="password">
+        </div>
+        <div class="form-group">
+            <input autocomplete="off" autofocus class="form-control" name="alias" placeholder="Alias" type="text">
+        </div>
+        <button class="btn btn-primary" type="submit" onclick="checkPassword()">Register</button>
+    </form>
+{% endblock %}
+{% block javascript %}
+    <script>
+        function checkPassword(form) {
+                password1 = document.getElementById("password").value
+                password2 = document.getElementById("password2").value
+                // password1 = form.password.value;
+                // password2 = form.password2.value;
+
+                // If password not entered
+                if (!document.querySelector("div.form-group input[name='password']").value){
+                   alert ("\nPlease enter Password");
+                   return false;
+                }
+                // If confirm password not entered
+                else if (!document.querySelector("div.form-group input[name='password2']").value){
+                    alert ("\nPlease enter confirm password");
+                    return false;
+                }
+                // If Not same return False.
+                else if (password1 != password2) {
+                    alert ("\nPassword did not match: Please try again...");
+                    return false;
+                }
+                else if (password1.length < 8){
+                    alert ("\nlength should be at least 8");
+                    return false;
+                }
+                else if (password1.length > 25){
+                    alert ("\nlength should be less than 25");
+                    return false;
+                }
+                else if (password1.search(/[a-z]/) < 0){
+                    alert ("\nPassword needs a lower case letter");
+                    return false;
+                }
+                else if (password1.search(/[A-Z]/) < 0){
+                    alert ("\nPassword needs a upper case letter");
+                    return false;
+                }
+                else if (password1.search(/[0-9]/) < 0){
+                    alert ("\nPassword needs a number");
+                    return false;
+                }
+                else if (password1.search(/[!@#$%&*-_]/) < 0){
+                    alert ("\nPassword needs a number");
+                    return false;
+                }
+                else if (!document.querySelector("div.form-group input[name='alias']").value)
+                {
+                    alert ("\nPlease insert an Alias");
+                    return false;
+                }
+                // If same return True.
+                else{
+                    alert("Password Match: Welcome to CS50 Finance!");
+                    return true;
+                }
+            }
+    </script>
+{% endblock %}

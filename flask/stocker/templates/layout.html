@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- documentation at http://getbootstrap.com/docs/4.1/, alternative themes at https://bootswatch.com/ -->
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet">
+
+        <!-- https://favicon.io/emoji-favicons/money-mouth-face/ -->
+        <link href="/static/icon.ico" rel="icon">
+        <link href="/static/styles.css" rel="stylesheet">
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+
+
+        {% block head %}{% endblock %}
+
+        <title>Stock Centric: {% block title %}{% endblock %}</title>
+    </head>
+
+    <body id="bootstrap-overrides" class="color-fondo">
+        <div id="page-container">
+            <div id="content-wrap">
+                <nav class="navbar navbar-expand-md navbar-light border" id='main-navbar'>
+                    <a class="navbar-brand" href="/"><img src="/static/icon.ico" alt="Logo"><span class="bold"> Stock</span> <span class="curly">Centric</span></a>
+                    <button aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-target="#navbar" data-toggle="collapse" type="button">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbar">
+                        {% if session.user_id %}
+                            <ul class="navbar-nav mr-auto mt-2">
+                                <!--<li class="nav-item"><a class="nav-link" href="/code">Code</a></li>-->
+                                <li class="nav-item"><a class="nav-link" href="/input"><span class="ruta-nav">Input</span></a></li>
+                                <li class="nav-item"><a class="nav-link" href="/output"><span class="ruta-nav">Output</span></a></li>
+                                <!--<li class="nav-item"><a class="nav-link" href="/history">History</a></li>-->
+                                <li class="nav-item"><a class="nav-link" href="/newProduct"><span class="ruta-nav">New Product</span></a></li>
+                                <li class="nav-item"><a class="nav-link" href="/analytics"><span class="ruta-nav">Analytics</span></a></li>
+                            </ul>
+                            <ul class="navbar-nav ml-auto mt-2">
+                                <li>
+                                    <div id="checkbox-id">
+                                        <label class="switch">
+                                            <input type="checkbox" onclick="changeColor(); existe();" id="id-check-box">
+                                            <span class="slider round"></span>
+                                        </label>
+                                    </div>
+                                </li>
+                                <li></li>
+                                <li class="nav-item"><a class="nav-link" href="/logout"><span class="ruta-nav">Log Out</span></a></li>
+                            </ul>
+                        {% else %}
+                            <!--<ul class="navbar-nav mr-auto mt-2">-->
+                                <!--<li class="nav-item"><a class="nav-link" href="/code">Code</a></li>-->
+                            <!--    <li class="nav-item"><a class="nav-link" href="/input">Input</a></li>-->
+                            <!--    <li class="nav-item"><a class="nav-link" href="/output">Output</a></li>-->
+                                <!--<li class="nav-item"><a class="nav-link" href="/history">History</a></li>-->
+                            <!--    <li class="nav-item"><a class="nav-link" href="/newProduct">New Product</a></li>-->
+                            <!--</ul>-->
+                            <ul class="navbar-nav ml-auto mt-2">
+                                <li>
+                                    <div id="checkbox-id">
+                                        <label class="switch">
+                                            <input type="checkbox" onclick="changeColor(); existe();" id="id-check-box">
+                                            <span class="slider round"></span>
+                                        </label>
+                                    </div>
+                                </li>
+                                <li></li>
+                                <li class="nav-item"><a class="nav-link" href="/register"><span class="ruta-nav">Register</span></a></li>
+                                <li class="nav-item"><a class="nav-link" href="/login"><span class="ruta-nav">Log In</span></a></li>
+                            </ul>
+                        {% endif %}
+                    </div>
+                </nav>
+
+                {% if get_flashed_messages() %}
+                    <header>
+                        <div class="alert alert-primary border text-center" role="alert">
+                            {{ get_flashed_messages() | join(" ") }}
+                        </div>
+                    </header>
+                {% endif %}
+                <main class="container p-5">
+                    {% block main %}{% endblock %}
+                </main>
+            </div>
+
+            <footer class="small text-center text-muted" id="footer">
+                Developed by Patricio
+            </footer>
+        </div>
+        <script>
+            function existe(){
+                if (document.querySelector('table') == null)
+                {
+                    console.log("funca");
+                }
+                else
+                {
+                    tableColor();
+                }
+            }
+            window.onload = (document.getElementById("id-check-box").checked = (localStorage.getItem("colorBoton")) == 'true');
+            // window.onload = (document.querySelector('body').className = localStorage.getItem("colorFondo"));
+            window.onload = changeColor();
+            //window.onload = atInit;
+            console.log(document.getElementById("id-check-box").checked);
+            // function atInit()
+            // {
+            //     tableColor();
+            //     changeColor();
+            // }
+            function changeColor()
+            {
+                var isChecked;
+                var fondo;
+                // var elem;
+                // var style;
+                // var color;
+                if(document.getElementById("id-check-box").checked)
+                {
+                    const body = document.querySelector('body');
+                    body.className = 'color-fondo-blanco';
+                    fondo = 'color-fondo-blanco';
+                    isChecked = true;
+                    localStorage.setItem("colorBoton",isChecked);
+                    localStorage.setItem("colorFondo",fondo);
+                    console.log(document.getElementById("id-check-box").checked);
+                    console.log(localStorage.getItem("colorBoton"));
+                    // elem = document.querySelector('.color-fondo-blanco');
+                    // style = getComputedStyle(elem);
+                    // console.log(style.backgroundColor)
+                //   getComputedStyle(elem) = "white";
+                //   console.log(style.backgroundColor)
+                }
+                else if(!document.getElementById("id-check-box").checked)
+                {
+                    const body = document.querySelector('body');
+                    body.className = 'color-fondo';
+                    fondo = 'color-fondo';
+                    isChecked = false;
+                    localStorage.setItem("colorBoton",isChecked);
+                    localStorage.setItem("colorFondo",fondo);
+                    console.log(document.getElementById("id-check-box").checked);
+                    console.log(localStorage.getItem("colorBoton"));
+                    // elem = document.querySelector('.color-fondo-blanco');
+                    // style = getComputedStyle(elem);
+                    // console.log(style.backgroundColor)
+                //   getComputedStyle(elem) = "white";
+                //   console.log(style.backgroundColor)
+                }
+            };
+            // var color;
+            // function changeColor()
+            // {
+            //     if (document.getElementById("id-check-box").checked)
+            //     {
+            //         document.body.style.backgroundColor = "white";
+            //         color = "white";
+            //         isChecked = true;
+            //         localStorage.setItem("colorFondo",color);
+            //         localStorage.setItem("colorBoton",isChecked);
+            //         console.log("si");
+            //     }
+            //     else if (!document.getElementById("id-check-box").checked)
+            //     {
+            //         document.body.style.backgroundColor = "#212529";
+            //         color = "#212529";
+            //         isChecked = false;
+            //         localStorage.setItem("colorFondo",color);
+            //         localStorage.setItem("colorBoton",isChecked);
+            //         console.log("no");
+            //     }
+            // }
+            // window.onload = (document.body.style.background =localStorage.getItem("colorFondo"));
+            // window.onload = (document.getElementById("id-check-box").checked =localStorage.getItem("colorBoton"));
+            // function changeBackground(color) {
+            //       document.body.style.background = color;
+            //     }
+            // function changeBoton(isChecked) {
+            //       document.getElementById("id-check-box").checked  = isChecked;
+            //     }
+            // window.addEventListener("load",function() { changeBackground(color) });
+            // window.addEventListener("load",function() { changeBoton(isChecked) });
+        </script>
+        {% block javascript %}
+        {% endblock %}
+
+    </body>
+</html>

@@ -1,0 +1,79 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Portfolio
+{% endblock %}
+
+{% block main %}
+    <table class="table table-hover table-dark">
+      <thead>
+        <tr>
+          <th scope="col">Code</th>
+          <th scope="col">Name</th>
+          <th scope="col">Quantity</th>
+          <!--<th scope="col">Sell</th>-->
+          <th scope="col">Owner</th>
+          <!--<th scope="col">TOTAL</th>-->
+        </tr>
+      </thead>
+      <tbody>
+        {% for inventory in inventorys %}
+          <tr id={{ inventorys.id }}>
+            <th scope="row"><a class="code" href="/history/{{ inventory.code }}">{{ inventory.code }}</a></th>
+            <td>{{ inventory.name }}</td>
+            <td>{{ inventory.quantity }}</td>
+            <td>{{ inventory.alias }}</td>
+          </tr>
+        {% endfor %}
+        <!--<tr>-->
+        <!--  <th scope="row">CASH</th>-->
+        <!--  <td></td>-->
+        <!--  <td></td>-->
+        <!--  <td></td>-->
+        <!--  <td>{{ cash }}</td>-->
+        <!--</tr>-->
+        <!--<tr>-->
+        <!--  <th scope="row">3</th>-->
+        <!--  <td>Larry</td>-->
+        <!--  <td>the Bird</td>-->
+        <!--  <td>@twitter</td>-->
+        <!--  <td>@mdo</td>-->
+        <!--</tr>-->
+      </tbody>
+      <tfoot>
+            <tr>
+                <td colspan="4"></td>
+                <td>{{ sum_total }}</td>
+            </tr>
+        </tfoot>
+    </table>
+{% endblock %}
+{% block javascript %}
+  <script>
+    window.onload = tableColor();
+    function tableColor()
+    {
+        console.log("funca");
+        if (document.getElementById("id-check-box").checked)
+        {
+            const table = document.querySelector('table');
+            table.className = "table table-hover";
+            fondoTable = "table table-hover";
+            localStorage.setItem("colorTable",fondoTable);
+            console.log(document.getElementById("id-check-box").checked);
+            console.log(localStorage.getItem("colorTable"));
+            console.log(table.className);
+        }
+        else if (!document.getElementById("id-check-box").checked)
+        {
+            const table = document.querySelector("table");
+            table.className = "table table-hover table-dark";
+            fondoTable = "table table-hover table-dark";
+            localStorage.setItem("colorTable",fondoTable);
+            console.log(document.getElementById("id-check-box").checked);
+            console.log(localStorage.getItem("colorTable"));
+            console.log(table.className);
+        }
+    }
+  </script>
+{% endblock %}

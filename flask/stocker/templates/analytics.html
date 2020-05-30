@@ -1,0 +1,116 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Analytics
+{% endblock %}
+
+{% block main %}
+    <!--<h1>PRUEBAAAAAA</h1>-->
+    <form action="/analytics" method="post" Id="analyticsForm" >
+        <div class="btn-group">
+          <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Choose Your Product
+          </button>
+          <div class="dropdown-menu dropdown-menu-right">
+            {% for produto in produtos %}
+                <button class="dropdown-item" type="submit" value="{{produto.code}}" name="code">{{ produto.code }}</button>
+            {% endfor %}
+          </div>
+        </div>
+        <!--<div class="form-group" style="float:right">-->
+        <!--        <select class="form-control" name="name">-->
+        <!--            <option disabled selected value="">Product</option>-->
+        <!--            {% for produto in produtos %}-->
+        <!--                <option value="{{produto.name}}" type="submit">{{ produto.name }}</option>-->
+        <!--            {% endfor %}-->
+        <!--        </select>-->
+        <!--    </div>-->
+    <form action="/output" method="post" Id="analyticsForm" >
+    <!--<div class="btn-group" style="float:right">-->
+    <!--<div class="btn-group" id="analytics_dropdown">-->
+    <!--  <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
+    <!--    Right-aligned menu-->
+    <!--  </button>-->
+    <!--  <div class="dropdown-menu dropdown-menu-right">-->
+    <!--    {% for product in products %}-->
+    <!--        <button class="dropdown-item" type="button">Action</button>-->
+    <!--    {% endfor %}-->
+    <!--    <button class="dropdown-item" type="button">Action</button>-->
+    <!--    <button class="dropdown-item" type="button">Another action</button>-->
+    <!--    <button class="dropdown-item" type="button">Something else here</button>-->
+    <!--  </div>-->
+    <!--</div>-->
+    <canvas id="myChart" width="400" height="400"></canvas>
+    <script>
+        var ctx = document.getElementById('myChart');
+        // Chart.scaleService.updateScaleDefaults('linear', {
+        //         ticks: {
+        //             min: 0
+        //         }
+        //     });
+        var myLineChart = new Chart(ctx, {
+            type: 'line',
+            data:
+                {
+                    labels : {{ date }},
+                    datasets : [
+                        {
+                            label : '{{ prod_l }}',
+                            data : {{ sells }},
+                            backgroundColor : "blue",
+                            borderColor : "lightblue",
+                            fill : false,
+                            lineTension : 0
+                        }
+                        ]
+                },
+            options: {}
+        });
+        //     {
+        //     scales: {
+        //         xAxes: [{
+        //             type: 'category',
+        //             labels: [{{ date }}]
+        //         }]
+        //     }
+        // }
+        // });
+            // var ctx = document.getElementById('myChart');
+            // var myChart = new Chart(ctx, {
+            //     type: 'bar',
+            //     data: {
+            //         labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+            //         datasets: [{
+            //             label: '# of Votes',
+            //             data: [12, 19, 3, 5, 2, 3],
+            //             backgroundColor: [
+            //                 'rgba(255, 99, 132, 0.2)',
+            //                 'rgba(54, 162, 235, 0.2)',
+            //                 'rgba(255, 206, 86, 0.2)',
+            //                 'rgba(75, 192, 192, 0.2)',
+            //                 'rgba(153, 102, 255, 0.2)',
+            //                 'rgba(255, 159, 64, 0.2)'
+            //             ],
+            //             borderColor: [
+            //                 'rgba(255, 99, 132, 1)',
+            //                 'rgba(54, 162, 235, 1)',
+            //                 'rgba(255, 206, 86, 1)',
+            //                 'rgba(75, 192, 192, 1)',
+            //                 'rgba(153, 102, 255, 1)',
+            //                 'rgba(255, 159, 64, 1)'
+            //             ],
+            //             borderWidth: 1
+            //         }]
+            //     },
+            //     options: {
+            //         scales: {
+            //             yAxes: [{
+            //                 ticks: {
+            //                     beginAtZero: true
+            //                 }
+            //             }]
+            //         }
+            //     }
+            // });
+    </script>
+{% endblock %}
